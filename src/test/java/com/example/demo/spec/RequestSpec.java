@@ -1,6 +1,5 @@
 package com.example.demo.spec;
 
-import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 

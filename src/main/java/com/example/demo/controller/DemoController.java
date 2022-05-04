@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 public class DemoController {
@@ -26,8 +25,11 @@ public class DemoController {
 
     @PostMapping("user/login")
     @ApiOperation("Authorization")
-    public UserInfo login(@RequestBody LoginInfo loginInfo){
-        if (loginInfo.getUsername().equals("Harry")){
+    public UserInfo login(@RequestBody LoginInfo loginInfo) {
+        if (users.values().stream()
+                .anyMatch(
+                        userInfo -> userInfo.getUsername()
+                                .equals(loginInfo.getUsername()))){
             return UserInfo.builder()
                     .loginDate(new Date())
                     .username(loginInfo.getUsername())
@@ -36,14 +38,12 @@ public class DemoController {
         else {
             throw new InvalidUsernameException();
         }
-
     }
 
     @GetMapping("user/getAll")
     @ApiOperation("Get All Users' Info")
     public List<UserInfo> getAllUsers(){
         return new ArrayList<>(users.values());
-
     }
 
 }
